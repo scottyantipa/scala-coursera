@@ -487,7 +487,7 @@
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.11;1.0.4!scala-xml_2.11.jar(bundle)[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] jline#jline;2.12.1!jline.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang#scalap;2.11.7!scalap.jar[0m
-[0m[[0mdebug[0m] [0m:: resolution report :: resolve 152ms :: artifacts dl 6ms[0m
+[0m[[0mdebug[0m] [0m:: resolution report :: resolve 171ms :: artifacts dl 8ms[0m
 [0m[[0mdebug[0m] [0m	report for progfun1-recfun#progfun1-recfun_2.11;0.1-SNAPSHOT compile produced in /Users/scottantipa/dev/learn/scala-coursera/recfun/target/resolution-cache/reports/progfun1-recfun-progfun1-recfun_2.11-compile.xml[0m
 [0m[[0mdebug[0m] [0m	report for progfun1-recfun#progfun1-recfun_2.11;0.1-SNAPSHOT runtime produced in /Users/scottantipa/dev/learn/scala-coursera/recfun/target/resolution-cache/reports/progfun1-recfun-progfun1-recfun_2.11-runtime.xml[0m
 [0m[[0mdebug[0m] [0m	report for progfun1-recfun#progfun1-recfun_2.11;0.1-SNAPSHOT test produced in /Users/scottantipa/dev/learn/scala-coursera/recfun/target/resolution-cache/reports/progfun1-recfun-progfun1-recfun_2.11-test.xml[0m
@@ -502,5 +502,5 @@
 [0m[[0mdebug[0m] [0m	report for progfun1-recfun#progfun1-recfun_2.11;0.1-SNAPSHOT pom produced in /Users/scottantipa/dev/learn/scala-coursera/recfun/target/resolution-cache/reports/progfun1-recfun-progfun1-recfun_2.11-pom.xml[0m
 [0m[[0mdebug[0m] [0m	report for progfun1-recfun#progfun1-recfun_2.11;0.1-SNAPSHOT scala-tool produced in /Users/scottantipa/dev/learn/scala-coursera/recfun/target/resolution-cache/reports/progfun1-recfun-progfun1-recfun_2.11-scala-tool.xml[0m
 [0m[[0mdebug[0m] [0m	report for progfun1-recfun#progfun1-recfun_2.11;0.1-SNAPSHOT ensime-internal produced in /Users/scottantipa/dev/learn/scala-coursera/recfun/target/resolution-cache/reports/progfun1-recfun-progfun1-recfun_2.11-ensime-internal.xml[0m
-[0m[[0mdebug[0m] [0m	resolve done (152ms resolve - 6ms download)[0m
+[0m[[0mdebug[0m] [0m	resolve done (171ms resolve - 8ms download)[0m
 [0m[[0minfo[0m] [0mDone updating.[0m
