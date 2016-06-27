@@ -56,7 +56,11 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-    def union(that: TweetSet): TweetSet = ???
+  def union(that: TweetSet): TweetSet = {
+    unionAcc(that)
+  }
+
+  def unionAcc(acc: TweetSet): TweetSet
 
   /**
    * Returns the tweet from this set which has the greatest retweet count.
@@ -67,7 +71,9 @@ abstract class TweetSet {
    * Question: Should we implment this method here, or should it remain abstract
    * and be implemented in the subclasses?
    */
-    def mostRetweeted: Tweet = ???
+  def mostRetweeted: Tweet
+
+  def empty: Boolean
 
   /**
    * Returns a list containing all tweets of this set, sorted by retweet count
@@ -111,6 +117,12 @@ abstract class TweetSet {
 class Empty extends TweetSet {
   def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = acc
 
+  def unionAcc(acc: TweetSet): TweetSet = acc
+
+  def mostRetweeted: Tweet = throw new NoSuchElementException
+
+  def empty: Boolean = true
+
   /**
    * The following methods are already implemented
    */
@@ -134,6 +146,26 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     )
   }
 
+  def unionAcc(acc: TweetSet): TweetSet = {
+    left.unionAcc(right.unionAcc(acc.incl(elem)))
+  }
+
+  def empty: Boolean = false
+
+  def mostRetweeted: Tweet = {
+		lazy val leftMost = left.mostRetweeted
+		lazy val rightMost = right.mostRetweeted
+
+		if( !left.empty && leftMost.retweets > elem.retweets )
+			if( !right.empty && rightMost.retweets > leftMost.retweets )
+				rightMost
+			else
+				leftMost
+		else if( !right.empty && rightMost.retweets > elem.retweets )
+			rightMost
+		else
+			elem
+	}
 
   /**
    * The following methods are already implemented

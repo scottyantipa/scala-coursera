@@ -45,24 +45,30 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  // test("union: set4c and set4d") {
-  //   new TestSets {
-  //     assert(size(set4c.union(set4d)) === 4)
-  //   }
-  // }
-  //
-  // test("union: with empty set (1)") {
-  //   new TestSets {
-  //     assert(size(set5.union(set1)) === 4)
-  //   }
-  // }
-  //
-  // test("union: with empty set (2)") {
-  //   new TestSets {
-  //     assert(size(set1.union(set5)) === 4)
-  //   }
-  // }
-  //
+  test("union: set4c and set4d") {
+    new TestSets {
+      assert(size(set4c.union(set4d)) === 4)
+    }
+  }
+
+  test("union: with empty set (1)") {
+    new TestSets {
+      assert(size(set5.union(set1)) === 4)
+    }
+  }
+
+  test("union: with empty set (2)") {
+    new TestSets {
+      assert(size(set1.union(set5)) === 4)
+    }
+  }
+
+  test("mostRetweeted") {
+    new TestSets {
+      assert(set2.mostRetweeted.retweets === 20)
+    }
+  }
+
   // test("descending: set5") {
   //   new TestSets {
   //     val trends = set5.descendingByRetweet
