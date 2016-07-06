@@ -98,4 +98,10 @@ class HuffmanSuite extends FunSuite {
     }
   }
 
+  test("quickEncode") {
+    new TestTrees {
+      assert( quickEncode(t1)(List('a')) == List(0) )
+    }
+  }
+
 }
