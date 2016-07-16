@@ -180,6 +180,8 @@ object Huffman {
    * the resulting list of characters.
    */
   def decode(rootTree: CodeTree, allBits: List[Bit]): List[Char] = {
+    if (allBits.isEmpty)
+      return List()
 
     def decodeNode(tree: CodeTree, remainingBits: List[Bit]): List[Char] = {
       tree match {
@@ -219,23 +221,17 @@ object Huffman {
    * This function encodes `text` using the code tree `tree`
    * into a sequence of bits.
    */
-  def encode(rootTree: CodeTree)(allText: List[Char]): List[Bit] = {
+   def encode(rootTree: CodeTree)(text: List[Char]): List[Bit] = {
+     def walk(tree:  CodeTree)(c: Char): List[Bit] = tree match {
+       case Leaf(_, _) => List()
+       case Fork(left, _, _, _) if chars(left).contains(c) =>
+        0::walk(left)(c)
+       case Fork(_, right, _, _) =>
+        1::walk(right)(c)
+     }
 
-    def encodeNode(nodeTree: CodeTree)(text: List[Char]): List[Bit] = {
-      nodeTree match {
-        case Leaf(_, _) if text.tail.isEmpty => List()
-        case Leaf(char, _) => encodeNode(rootTree)(text.tail)
-        case Fork(left, right, _, _) =>
-          if (chars(left).contains(text.head)) {
-            0 :: encodeNode(left)(text)
-          } else {
-            1 :: encodeNode(right)(text)
-          }
-      }
-    }
-
-    encodeNode(rootTree)(allText)
-  }
+     text.flatMap(walk(rootTree))
+   }
 
   // Part 4b: Encoding using code table
 

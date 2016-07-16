@@ -67,7 +67,7 @@ class HuffmanSuite extends FunSuite {
     }
   }
 
-  test("can calc occurrence frequency") {
+  test("can calc simple occurrence frequency") {
     val timesOfEmpty = times(List())
     assert( timesOfEmpty.size === 0 )
 
@@ -84,6 +84,21 @@ class HuffmanSuite extends FunSuite {
     assert( timesOfAAB.tail.head._2 == 1 )
   }
 
+ test("can calc more complex occurrence freqency") {
+   val timesOfAABAA = times(List('a', 'a', 'b', 'a', 'a'))
+   println("timesOfAABAA: ")
+   println(timesOfAABAA)
+   assert( timesOfAABAA.size == 2 )
+   assert( timesOfAABAA.head._1 === 'a')
+   assert( timesOfAABAA.head._2 === 4)
+
+   val timesOfAABAACA = times(List('a', 'a', 'b', 'a', 'a', 'c', 'a'))
+   println("timesOfAABAACA: ")
+   println(timesOfAABAACA)
+   assert( timesOfAABAACA.size === 3)
+   assert( timesOfAABAACA.head._1 === 'a')
+   assert( timesOfAABAACA.head._2 === 5)
+ }
 
 
   test("string2chars(\"hello, world\")") {
@@ -108,6 +123,7 @@ class HuffmanSuite extends FunSuite {
 
   test("decode") {
     new TestTrees {
+      assert( decode(t1, List()) == List())
       assert( decode(t1, List(0)) == List('a'))
       assert( decode(t1, List(1)) == List('b'))
       assert( decode(t2, List(1)) == List('d'))
@@ -120,6 +136,7 @@ class HuffmanSuite extends FunSuite {
 
   test("encode") {
     new TestTrees {
+      assert( encode(t1)(List()) == List())
       assert( encode(t1)(List('a')) == List(0))
       assert( encode(t1)(List('a', 'a')) == List(0, 0))
       assert( encode(t1)(List('a', 'b')) == List(0, 1))
@@ -132,6 +149,13 @@ class HuffmanSuite extends FunSuite {
     }
   }
 
+  test("encode long homogenous list") {
+    new TestTrees {
+      val charList = 0.to(1000000).toList.map(i => 'a')
+      val bitList = charList.map(c => 0)
+      assert( encode(t3)(charList) === bitList)
+    }
+  }
 
 
   test("decode and encode a very short text should be identity") {
@@ -149,9 +173,31 @@ class HuffmanSuite extends FunSuite {
     }
   }
 
-  test("quickEncode") {
+  test("quickEncode simple") {
     new TestTrees {
       assert( quickEncode(t1)(List('a')) == List(0) )
+    }
+  }
+
+  test("quickEncode assignment tree") {
+    new TestTrees {
+      assert( quickEncode(t3)(List('a', 'a')) === List(0, 0))
+      assert( quickEncode(t3)(List('h')) === List(1, 1, 1, 1))
+      assert( quickEncode(t3)(List('h', 'a')) === List(1, 1, 1, 1, 0))
+    }
+  }
+
+  test("quickEncode empty list") {
+    new TestTrees {
+      assert( quickEncode(t3)(List()) === List())
+    }
+  }
+
+  test("quickEncode super long homogenous list") {
+    new TestTrees {
+      val charList = 0.to(1000000).toList.map(i => 'a')
+      val bitList = charList.map(c => 0)
+      assert( quickEncode(t3)(charList) === bitList)
     }
   }
 
