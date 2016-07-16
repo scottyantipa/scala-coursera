@@ -12,6 +12,45 @@ class HuffmanSuite extends FunSuite {
 	trait TestTrees {
 		val t1 = Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5)
 		val t2 = Fork(Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5), Leaf('d',4), List('a','b','d'), 9)
+
+
+    // From the assignment
+    val t3 = Fork(
+                Leaf('a', 8),
+                Fork(
+                  Fork(
+                    Leaf('b', 3),
+                    Fork(
+                      Leaf('c', 1),
+                      Leaf('d', 1),
+                      "cd".toList,
+                      2
+                    ),
+                    "bcd".toList,
+                    5
+                  ),
+                  Fork(
+                    Fork(
+                      Leaf('e', 1),
+                      Leaf('f', 1),
+                      "ef".toList,
+                      2
+                    ),
+                    Fork(
+                      Leaf('g', 1),
+                      Leaf('h', 1),
+                      "gh".toList,
+                      2
+                    ),
+                    "efgh".toList,
+                    4
+                  ),
+                  "bcdefgh".toList,
+                  9
+                ),
+                "abcdefgh".toList,
+                17
+    )
 	}
 
 
@@ -87,6 +126,9 @@ class HuffmanSuite extends FunSuite {
       assert( encode(t1)(List('a', 'b', 'a', 'b')) == List(0, 1, 0, 1))
 
       assert( encode(t2)(List('b')) == List(0, 1))
+
+      assert( encode(t3)(List('a')) == List(0))
+      assert( encode(t3)(List('a', 'a')) == List(0, 0))
     }
   }
 
@@ -95,6 +137,15 @@ class HuffmanSuite extends FunSuite {
   test("decode and encode a very short text should be identity") {
     new TestTrees {
       assert(decode(t1, encode(t1)("ab".toList)) === "ab".toList)
+    }
+  }
+
+  test("decode and encode more complex text") {
+    new TestTrees {
+      assert(decode(t1, encode(t1)("ababababa".toList)) === "ababababa".toList)
+      assert(decode(t1, encode(t1)("aaabbbaaa".toList)) === "aaabbbaaa".toList)
+      assert(decode(t2, encode(t2)("aabbddaa".toList)) === "aabbddaa".toList)
+      assert(decode(t3, encode(t3)("aabbddaa".toList)) === "aabbddaa".toList)
     }
   }
 
