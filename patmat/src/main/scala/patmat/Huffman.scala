@@ -259,10 +259,9 @@ object Huffman {
    * a valid code tree that can be represented as a code table. Using the code tables of the
    * sub-trees, think of how to build the code table for the entire tree.
    */
-  def convert(tree: CodeTree): CodeTable = {
-    chars(tree).map(
-        (char) => ( char, encode(tree)(List(char)) )
-    )
+  def convert(tree: CodeTree): CodeTable = tree match {
+    case Leaf(char, weight) => List( ( char, List() ) )
+    case Fork(left, right, chars, _) => mergeCodeTables(convert(left), convert(right))
   }
 
   /**
@@ -270,7 +269,12 @@ object Huffman {
    * use it in the `convert` method above, this merge method might also do some transformations
    * on the two parameter code tables.
    */
-  def mergeCodeTables(a: CodeTable, b: CodeTable): CodeTable = ??? // not needed
+   // NOTE I'm changing param names from `a` and `b` to `left` and `right` because
+   //      the logic assumes that a is the left tree and b is the right tree.
+  def mergeCodeTables(left: CodeTable, right: CodeTable): CodeTable = {
+    // prepend a zero to everything in `left` and a 1 to everything in `right` then concat
+    left.map( (row) => (row._1, 0 :: row._2)) ::: right.map( (row) => (row._1, 1 :: row._2))
+  }
 
   /**
    * This function encodes `text` according to the code tree `tree`.
