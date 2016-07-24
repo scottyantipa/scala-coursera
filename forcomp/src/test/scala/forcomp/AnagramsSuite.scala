@@ -34,7 +34,7 @@ class AnagramsSuite extends FunSuite  {
   test("dictionaryByOccurrences.get: eat") {
     assert(dictionaryByOccurrences.get(List(('a', 1), ('e', 1), ('t', 1))).map(_.toSet) === Some(Set("ate", "eat", "tea")))
   }
-  
+
 
   test("word anagrams: married") {
     assert(wordAnagrams("married").toSet === Set("married", "admirer"))
@@ -54,25 +54,36 @@ class AnagramsSuite extends FunSuite  {
   // }
   //
   //
-  // test("combinations: []") {
-  //   assert(combinations(Nil) === List(Nil))
-  // }
-  //
-  // test("combinations: abba") {
-  //   val abba = List(('a', 2), ('b', 2))
-  //   val abbacomb = List(
-  //     List(),
-  //     List(('a', 1)),
-  //     List(('a', 2)),
-  //     List(('b', 1)),
-  //     List(('a', 1), ('b', 1)),
-  //     List(('a', 2), ('b', 1)),
-  //     List(('b', 2)),
-  //     List(('a', 1), ('b', 2)),
-  //     List(('a', 2), ('b', 2))
-  //   )
-  //   assert(combinations(abba).toSet === abbacomb.toSet)
-  // }
+  test("combinations: []") {
+    assert(combinations(Nil) === List(Nil))
+  }
+
+  test("combinations: abba") {
+    val abba = List(('a', 2), ('b', 2))
+    val abbacomb = List(
+      List(),
+      List(('a', 1)),
+      List(('a', 2)),
+      List(('b', 1)),
+      List(('a', 1), ('b', 1)),
+      List(('a', 2), ('b', 1)),
+      List(('b', 2)),
+      List(('a', 1), ('b', 2)),
+      List(('a', 2), ('b', 2))
+    )
+    assert(combinations(abba).toSet === abbacomb.toSet)
+  }
+
+  test("subtract with one char") {
+    assert( subtract( List(('a', 2)), List(('a', 1))) === List(('a', 1)))
+  }
+
+  test("subtract with multiple char") {
+    val x = List(('a', 1), ('d', 1), ('l', 1), ('r', 1))
+    val y = List(('r', 1))
+    assert( subtract(x, y) === List(('a', 1), ('d', 1), ('l', 1)) )
+  }
+
   //
   //
   // test("sentence anagrams: []") {

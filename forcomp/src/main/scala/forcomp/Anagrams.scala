@@ -97,19 +97,42 @@ object Anagrams {
    *  Note that the order of the occurrence list subsets does not matter -- the subsets
    *  in the example above could have been displayed in some other order.
    */
-  def combinations(occurrences: Occurrences): List[Occurrences] = ???
+   // Start with empty list
+   // Given elem `a`, add List('a', 1)
+   // If that is the entire occurrences, then return List( List(('a', 1)), List() )
+   // If not, combine ('a', 1) with a recurse call to the rest of the occurences less `a`
+   // do the same through n for ('a', n).
+   def combinations(occurrences: Occurrences): List[Occurrences] =
+     occurrences.foldRight(List[Occurrences](Nil)) { case ((char, times), accum) => {
+       accum ++ (for {
+         i <- 1 to times
+         combination <- accum
+       } yield (char, i) :: combination )
+     } }
 
-  /** Subtracts occurrence list `y` from occurrence list `x`.
+  /** Subtracts occurrence list `y` from occurrence list `from`.
    *
    *  The precondition is that the occurrence list `y` is a subset of
-   *  the occurrence list `x` -- any character appearing in `y` must
-   *  appear in `x`, and its frequency in `y` must be smaller or equal
-   *  than its frequency in `x`.
+   *  the occurrence list `from` -- any character appearing in `y` must
+   *  appear in `from`, and its frequency in `y` must be smaller or equal
+   *  than its frequency in `from`.
    *
    *  Note: the resulting value is an occurrence - meaning it is sorted
    *  and has no zero-entries.
    */
-  def subtract(x: Occurrences, y: Occurrences): Occurrences = ???
+  def subtract(from: Occurrences, y: Occurrences): Occurrences = {
+    y.foldLeft(from)((remaining, toSubtract) =>
+      for {
+        occ <- remaining
+        if (occ._1 != toSubtract._1  || occ._2 > toSubtract._2)
+      } yield {
+        if (occ._1 == toSubtract._1)
+          (occ._1, occ._2 - toSubtract._2)
+        else
+          occ
+      }
+    )
+  }
 
   /** Returns a list of all anagram sentences of the given sentence.
    *
