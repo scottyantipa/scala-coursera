@@ -174,5 +174,43 @@ object Anagrams {
    *
    *  Note: There is only one anagram of an empty sentence.
    */
-  def sentenceAnagrams(sentence: Sentence): List[Sentence] = ???
+
+   /*
+   An anagram of a sentence is a list of words that has the same Occurrences as the list.
+
+   We want to compute all such lists.
+
+   A list of words maps to a list of Occurrences for each word.
+
+   The sentence S has an Occurrences list (call it occ). We also have subOcc, the set of all Occurrences
+   that are a subset of occ.  The subsets map to new words that are NOT in the sentence, but only container
+   letters from the sentence.  Note that not all occurrences in subOcc map to a word.
+
+   Approach:
+    - Create method `recurse` which iterate over the subOcc list.  The for loop has a conditional
+      which checks if the occurrence 'occ' is real word.  It does not yield anything if it is not a real word.
+      If occ is a real word, it will yield a call to recurse which operates on the subOcc after subtracting occ.
+      The value that is yielded will be concated to the running acc.  So, it will likely look like a fold
+      with a for loop.
+
+   */
+  def sentenceAnagrams(sentence: Sentence): List[Sentence] = {
+
+    def recurse(occurrences: Occurrences): List[Sentence] = {
+      if (occurrences.isEmpty) {
+        List(Nil)
+      } else {
+        val combos = combinations(occurrences)
+        for {
+          occ <- combos if ( dictionaryByOccurrences.get(occ).isDefined )
+          word <- dictionaryByOccurrences(occ)
+          sentences <- recurse(subtract(occurrences, occ))
+        } yield {
+          word :: sentences
+        }
+      }
+    }
+
+    recurse(sentenceOccurrences(sentence))
+  }
 }
